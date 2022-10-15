@@ -21,6 +21,20 @@ And a big thanks to all GitHub sponsors who helped with some of my costs before 
 
 ## What's New
 
+### Oct 15, 2022
+* Train and validation script enhancements
+* Non-GPU (ie CPU) device support
+* SLURM compatibility for train script
+* HF datasets support (via ReaderHfds)
+* TFDS/WDS dataloading improvements (sample padding/wrap for distributed use fixed wrt sample count estimate)
+* in_chans !=3 support for scripts / loader
+* Adan optimizer
+* Can enable per-step LR scheduling via args
+* Dataset 'parsers' renamed to 'readers', more descriptive of purpose
+* AMP args changed, APEX via `--amp-impl apex`, bfloat16 supportedf via `--amp-dtype bfloat16`
+* main branch switched to 0.7.x version, 0.6x forked for stable release of weight only adds
+* master -> main branch rename
+
 ### Oct 10, 2022
 * More weights in `maxxvit` series, incl first ConvNeXt block based `coatnext` and `maxxvit` experiments:
   * `coatnext_nano_rw_224` - 82.0 @ 224 (G) -- (uses ConvNeXt conv block, no BatchNorm)
@@ -128,7 +142,7 @@ More models, more fixes
 * `cs3`, `darknet`, and `vit_*relpos` weights above all trained on TPU thanks to TRC program! Rest trained on overheating GPUs.
 * Hugging Face Hub support fixes verified, demo notebook TBA
 * Pretrained weights / configs can be loaded externally (ie from local disk) w/ support for head adaptation.
-* Add support to change image extensions scanned by `timm` datasets/parsers. See (https://github.com/rwightman/pytorch-image-models/pull/1274#issuecomment-1178303103)
+* Add support to change image extensions scanned by `timm` datasets/readers. See (https://github.com/rwightman/pytorch-image-models/pull/1274#issuecomment-1178303103)
 * Default ConvNeXt LayerNorm impl to use `F.layer_norm(x.permute(0, 2, 3, 1), ...).permute(0, 3, 1, 2)` via `LayerNorm2d` in all cases. 
   * a bit slower than previous custom impl on some hardware (ie Ampere w/ CL), but overall fewer regressions across wider HW / PyTorch version ranges. 
   * previous impl exists as `LayerNormExp2d` in `models/layers/norm.py`
